@@ -21,24 +21,24 @@ This dataset contains detailed information on a wide range of electronic product
 ## 🔧 3. Upcoming Features
 
 ### 🔐 3.1 Authentication
-#### 👤 3.1.1 User Sign In/Sign Up
+#### 3.1.1 User Sign In/Sign Up
 - **Description**: Secure user authentication for account creation and login.
 
-#### 🔑 3.1.2 Session Management
+#### 3.1.2 Session Management
 - **Description**: Secure session handling, tracking user sessions, and managing session timeouts.
 
-#### 🔒 3.1.3 Permission Management
+#### 3.1.3 Permission Management
 - **Description**: Defining user roles and permissions to control access to various platform features.
 
 ### 🧠 3.2 Recommendation Enhancements
-#### 🔄 3.2.1 Continuous Training
+#### 3.2.1 Continuous Training
 - **Description**: Implementing continuous learning to improve recommendation accuracy with new data.
 
-#### 🤖 3.2.2 Autonomous Optimal Model Selection
+#### 3.2.2 Autonomous Optimal Model Selection
 - **Description**: Utilizing algorithms to autonomously select the most effective recommendation models based on performance metrics.
 
 ### 🛠️ 3.3 Additional Features
-#### 🛒 3.3.1 Add to Cart and Favorite
+#### 3.3.1 Add to Cart and Favorite
 - **Description**: Users can add products to their cart and mark items as favorites for easy access later.
 
 #### ☸️ 3.3.2 Service Structuring with Kubernetes (k8s)
