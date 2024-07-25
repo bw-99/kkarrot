@@ -1,0 +1,25 @@
+.product-page {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.product-details {
+  padding: 20px;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+}

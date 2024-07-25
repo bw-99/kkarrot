@@ -1,0 +1,86 @@
+/* 기본 스타일 */
+.homepage {
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff6f00;
+  }
+  
+  nav ul {
+    display: flex;
+    list-style: none;
+  }
+  
+  nav ul li {
+    margin: 0 15px;
+    cursor: pointer;
+  }
+  
+  .search-bar input {
+    padding: 10px;
+    width: 300px;
+  }
+  
+  .banner {
+    padding: 50px 20px;
+    background-color: #f8f9fa;
+    text-align: center;
+  }
+  
+  .popular-products {
+    padding: 20px;
+    margin: 0 10%;
+  }
+  
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .product-item {
+    width: calc(25% - 20px);
+    text-align: center;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .product-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .product-info {
+    padding: 10px;
+  }
+  
+  .more-categories {
+    padding: 20px;
+    margin: 0 10%;
+    text-align: center;
+  }
+  
+  footer {
+    padding: 20px;
+    text-align: center;
+    background-color: #f1f1f1;
+  }
+  
