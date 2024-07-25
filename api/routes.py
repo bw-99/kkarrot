@@ -7,17 +7,10 @@ from flask_restx import Api, Resource, fields
 import pandas as pd
 from api.middleware import *
 from api.infer import *
-from torch_geometric.data import HeteroData
 from api.constant import *
 
 rest_api = Api(version="1.0", title="KKARROT Documentation")
 
-# * load data
-meta_df = pd.read_pickle("data/processed/item_meta.pkl")
-ITEM_ID_LST = torch.LongTensor(meta_df["item_id"].to_list()).cuda()
-RATING_LST = torch.LongTensor(meta_df["rating_number"].to_list())
-graph = torch.load("data/processed/graph.pkl")
-graph = HeteroData().from_dict(graph)
 
 # * load deep learning model
 ttr_rec = load_twotower("ml/parameters/twotower.pth").cuda()
@@ -26,7 +19,7 @@ session_rec = load_session("ml/parameters/session.pth").cuda()
 
 # * click_history for sequence recommendation
 product_model = rest_api.model('ProductModel', {
-                                                "click_history": fields.Integer(required=True, min_length=3, max_length=100),
+                                                "click_history": fields.List(fields.Integer(required=True)),
                                             })
 
 # * user_id for feed recommendation
@@ -47,7 +40,7 @@ class Home(Resource):
                 }, 200
 
     @user_id_check
-    def post(self, user_id, page):
+    def post(self, user_id, _):
         """Get recommended products."""
 
         # * retrieve
@@ -68,13 +61,12 @@ class Home(Resource):
         top_items = pd.merge(pd.DataFrame(top_item_idx, columns=['item_id']),meta_df, on='item_id', how='left')
 
         return {"success": True,
-                "page": page,
                 "feed_lst": top_items.to_json(orient="records")
                 }, 200
     
+    
 @rest_api.route('/api/view/product/<string:item_id>')
 class Product(Resource):
-
     def get(self, item_id):
         """Get detailed description of the product."""
         return {"success": True,
@@ -82,10 +74,16 @@ class Product(Resource):
                 }, 200
     
     @rest_api.expect(product_model, validate=True)
+    @sequence_check
     def post(self, item_id):
         """Get recommended products via click history."""
-        return {"success": True,
-                "item_id": item_id,
-                "feed_lst": []
-                }, 200
+        req_data = request.get_json()
+        click_history = req_data.get("click_history")
+        top_pred_idx = sequence_recommend(session_rec, click_history)
 
+        # ! optimize with sqlie needed!
+        top_items = pd.merge(pd.DataFrame(top_pred_idx, columns=['item_id']),meta_df, on='item_id', how='left')
+
+        return {"success": True,
+                "feed_lst": top_items.to_json(orient="records")
+                }, 200

@@ -5,7 +5,14 @@ from torch_geometric.loader import LinkNeighborLoader
 import pandas as pd
 
 RETRIEVE_TOPK = 500
+SESSION_TOPK = 20
 NUM_NEI1, NUM_NEI2 = 100, 50
+
+def sequence_recommend(model:GRURecommender, history):
+    with torch.no_grad():
+        preds = model(torch.LongTensor(history).unsqueeze(dim=0).cuda()).cpu().squeeze()
+        pred_idx = torch.argsort(preds, descending=True)[:SESSION_TOPK].cpu() 
+    return pred_idx
 
 def retrieve(model:TTRecommender, user_id, item_id_lst):
     user_lst = torch.repeat_interleave(torch.tensor([user_id]), item_id_lst.shape[0])
@@ -13,6 +20,7 @@ def retrieve(model:TTRecommender, user_id, item_id_lst):
         preds = model(user_lst.cuda(), item_id_lst)
         pred_idx = torch.argsort(preds, descending=True)[:RETRIEVE_TOPK].cpu()
     return pred_idx
+
 
 def link_prediction(model:LinkPrediction, user_id, item_id_lst, graph:HeteroData):
     edge_label_index = torch.stack([
