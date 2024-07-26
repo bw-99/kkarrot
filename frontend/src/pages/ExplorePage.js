@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './ExplorePage.css';
 
@@ -19,6 +19,19 @@ const ExplorePage = () => {
     // 추가 아이템
   ];
 
+  const [viewMore, setViewMore] = useState('');
+
+  
+  useEffect(() => {
+    if(!viewMore) {
+      return
+    }
+
+    alert("load more");
+    setViewMore(false);
+    return
+  }, [viewMore])
+  
   return (
     <div className="ExplorePage">
       <header className="navbar">
@@ -26,28 +39,10 @@ const ExplorePage = () => {
 
       </header>
       <main>
-        <div style={{display:"flex", width:"100%", backgroundColor:"#FDF1B2", justifyContent:"center"}}>
-            <div style={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
-                <div style={{fontWeight:900, fontSize:"30px", marginTop:  "-50px", overflow:"hidden", whiteSpace:"nowrap", textOverflow:"ellipsis"}}>
-                      믿을만한
-                </div>
-                <div style={{fontWeight:900, fontSize:"30px", marginTop:  "0px", overflow:"hidden", whiteSpace:"nowrap", textOverflow:"ellipsis"}}>
-                      이웃 간 중고거래
-                </div>
-                <div style={{marginTop:  "18px", overflow:"hidden", whiteSpace:"nowrap", textOverflow:"ellipsis"}}>
-                    동네 주민들과 가깝고 따뜻한 거래를
-                </div>
-                <div style={{marginTop:  "0px", overflow:"hidden", whiteSpace:"nowrap", textOverflow:"ellipsis"}}>
-                    지금 경험해보세요.
-                </div>
-            </div>
 
-            <img src='/images/home_banner.jpg' alt='' style={{height:"315px"}}></img>
-
-        </div>
         <section className="popular-products" style={{display:"flex", alignItems:'center', flexDirection:"column"}}>
-          <div style={{fontWeight:"bold", fontSize: "25px", marginTop:"40px", marginBottom:"32px"}}>중고거래 인기매물</div>
-          <div className="product-list">
+        <div style={{fontWeight:600, fontSize: "35px", marginTop:"40px", marginBottom:"50px"}}>중고거래 인기매물</div>
+        <div className="product-list">
             {products.map(product => (
               <Link to={`/product/${product.id}`} key={product.id} className="product-item">
                 <img src={product.imageUrl} alt={product.name} style={{width:"223px", height:"223px", objectFit:"cover"}}/>
@@ -61,9 +56,13 @@ const ExplorePage = () => {
               </Link>
             ))}
           </div>
-          <div className="view-more">
-            <Link to="/more-products">인기매물 더 보기</Link>
-          </div>
+
+          <div className="load-more">
+              <button onClick={()=>{
+                setViewMore(true);
+              }}>더보기</button>
+            </div>
+
         </section>
 
       </main>

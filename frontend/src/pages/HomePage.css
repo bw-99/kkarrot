@@ -6,12 +6,23 @@
   }
   
   .navbar {
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #e9ecef; */
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
     background-color: #fff;
     border-bottom: 1px solid #e9ecef;
+    position: fixed; /* 상단에 고정 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* 다른 요소 위에 위치하도록 z-index 설정 */
   }
   
   .logo {

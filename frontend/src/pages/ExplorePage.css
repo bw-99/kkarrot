@@ -12,6 +12,11 @@
     padding: 10px 20px;
     background-color: #fff;
     border-bottom: 1px solid #e9ecef;
+    position: fixed; /* 상단에 고정 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* 다른 요소 위에 위치하도록 z-index 설정 */
   }
   
   .logo {
@@ -48,7 +53,7 @@
   
   .product-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px 40px;
     padding: 0 20%;
   }
@@ -86,3 +91,24 @@
     margin-top: 40px;
   }
   
+
+  /* Load more button styling */
+.load-more {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.load-more button {
+  background-color: #ff6f00;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.load-more button:hover {
+  background-color: #ff0000;
+}
