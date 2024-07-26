@@ -36,7 +36,7 @@ def sequence_check(func):
         try:
             click_history = req_data.get("click_history")
             print(click_history)
-            if(len(click_history) != 3):
+            if(len(click_history) != 5):
                 return {}, 400
         except IndexError as e:
             return {}, 400

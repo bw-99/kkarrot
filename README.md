@@ -9,6 +9,12 @@ The core of this project involves a deep learning recommender system model train
 ![image](https://github.com/user-attachments/assets/2d642538-4ad3-4c2c-9360-5f983fd6b0bd)
 
 
+## 0. Docker
+docker run -it -v {PATH_TO_WORKSPACE}:/work --shm-size=10G  bb1702/kkarrot:latest
+
+if you install or delete dependencies, libraries => docker commit {container_id} {name} and share 
+
+
 ## 📊 1. Used Dataset
 
 - **Dataset Source**: [Amazon eCommerce Dataset](https://amazon-reviews-2023.github.io/)
@@ -29,27 +35,27 @@ This dataset contains detailed information on a wide range of electronic product
 
 ### 🔐 3.1 Authentication
 #### 3.1.1 User Sign In/Sign Up
-- **Description**: Secure user authentication for account creation and login.
+- Secure user authentication for account creation and login.
 
 #### 3.1.2 Session Management
-- **Description**: Secure session handling, tracking user sessions, and managing session timeouts.
+- Secure session handling, tracking user sessions, and managing session timeouts.
 
 #### 3.1.3 Permission Management
-- **Description**: Defining user roles and permissions to control access to various platform features.
+- Defining user roles and permissions to control access to various platform features.
 
 ### 🧠 3.2 Recommendation Enhancements
 #### 3.2.1 Continuous Training
-- **Description**: Implementing continuous learning to improve recommendation accuracy with new data.
+- Implementing continuous learning to improve recommendation accuracy with new data.
 
 #### 3.2.2 Autonomous Optimal Model Selection
-- **Description**: Utilizing algorithms to autonomously select the most effective recommendation models based on performance metrics.
+- Utilizing algorithms to autonomously select the most effective recommendation models based on performance metrics.
 
 ### 🛠️ 3.3 Additional Features
 #### 3.3.1 Add to Cart and Favorite
-- **Description**: Users can add products to their cart and mark items as favorites for easy access later.
+- Users can add products to their cart and mark items as favorites for easy access later.
 
 #### 3.3.2 Service Structuring with Kubernetes (k8s)
-- **Description**: Using Kubernetes for container orchestration, enhancing the scalability and manageability of the service architecture.
+- Using Kubernetes for container orchestration, enhancing the scalability and manageability of the service architecture.
 
 ## 🛠️ Tech Stack
 

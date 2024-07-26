@@ -10,7 +10,7 @@ NUM_NEI1, NUM_NEI2 = 100, 50
 
 def sequence_recommend(model:GRURecommender, history):
     with torch.no_grad():
-        preds = model(torch.LongTensor(history).unsqueeze(dim=0).cuda()).cpu().squeeze()
+        preds = model(torch.LongTensor(history).view(1, -1).cuda()).cpu().squeeze()
         pred_idx = torch.argsort(preds, descending=True)[:SESSION_TOPK].cpu() 
     return pred_idx
 
