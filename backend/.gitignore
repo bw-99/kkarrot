@@ -13,4 +13,5 @@ app/db.sqlite3
 *.sqlite3
 data/*/*.pkl
 data/*/*.csv
+data/*/*.json
 ml/parameters/*.pth

@@ -7,6 +7,7 @@ WINDOW_SIZE = 3
 
 # * load data
 meta_df = pd.read_pickle("data/processed/item_meta.pkl")
+print(meta_df.keys())
 ITEM_ID_LST = torch.LongTensor(meta_df["item_id"].to_list()).cuda()
 RATING_LST = torch.LongTensor(meta_df["rating_number"].to_list())
 graph = torch.load("data/processed/graph.pkl")
