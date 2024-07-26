@@ -36,7 +36,7 @@ class Home(Resource):
         return {"success": True,
                 "user_id": user_id,
                 "page": page,
-                "feed_lst": meta_df.iloc[page*10:end_idx].to_json(orient="records")
+                "feed_lst": meta_df.iloc[page*FETCH_UNIT:end_idx].to_json(orient="records")
                 }, 200
 
     @user_id_check

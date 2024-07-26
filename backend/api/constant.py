@@ -4,6 +4,7 @@ import torch
 
 ALPHA = 0.7
 WINDOW_SIZE = 3
+FETCH_UNIT = 3*6
 
 # * load data
 meta_df = pd.read_pickle("data/processed/item_meta.pkl")

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
+import axios from 'axios';
 
 const HomePage = () => {
   const products = [
@@ -18,6 +19,24 @@ const HomePage = () => {
     { id: 12, name: '혼다 예초기', price: '90,000원', imageUrl: '/images/mower.jpg' },
     // 추가 아이템
   ];
+
+  const  [bookList, setBookList] = useState([]);
+  
+  useEffect(() => {
+    fetchBookList()
+  }, []);
+  
+  const fetchBookList = () => {
+    axios.get('/view/home/1/p/1')
+      .then((response) => {
+        setBookList(JSON.parse(response.data["feed_lst"]));
+      })
+      .catch((error) => {
+        console.log("Error while fetching books:", error);
+      });
+  }
+  
+  console.log(bookList)
 
   return (
     <div className="homepage">
@@ -48,15 +67,15 @@ const HomePage = () => {
         <section className="popular-products" style={{display:"flex", alignItems:'center', flexDirection:"column"}}>
           <div style={{fontWeight:"bold", fontSize: "25px", marginTop:"40px", marginBottom:"32px"}}>중고거래 인기매물</div>
           <div className="product-list">
-            {products.map(product => (
-              <Link to={`/product/${product.id}`} key={product.id} className="product-item">
-                <img src={product.imageUrl} alt={product.name} style={{width:"223px", height:"223px", objectFit:"cover"}}/>
+            {bookList.map(product => (
+              <Link to={`/product/${product.item_id}`} key={product.item_id} className="product-item">
+                <img src={product.images["hi_res"][0]} alt={product.title} style={{width:"223px", height:"223px", objectFit:"cover"}}/>
                 <div className="product-info" style={{display:"flex", alignItems:"flex-start", flexDirection:"column"}}>
                   <div style={{overflow:"hidden", whiteSpace:"nowrap", textOverflow:"ellipsis"}}>
-                    {product.name}
+                    {product.title}
                   </div>
-                  <div style={{fontWeight:"bold", marginTop:"8px"}}>{product.price}</div>
-                  <div style={{marginTop:"8px"}}>Additional Informations...</div>
+                  <div style={{fontWeight:"bold", marginTop:"8px"}}>{product.price ? product.price + "$" : ""}</div>
+                  <div style={{marginTop:"8px"}}>Num ratings: {product.rating_number}</div>
                 </div>
               </Link>
             ))}
