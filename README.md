@@ -6,6 +6,9 @@ Welcome to the Electronics Marketplace! This project is focused on building a us
 
 The core of this project involves a deep learning recommender system model trained on the Amazon eCommerce dataset using the `torch` package. This model is deployed using Flask, providing an efficient and scalable solution for delivering personalized product recommendations to users.
 
+![image](https://github.com/user-attachments/assets/2d642538-4ad3-4c2c-9360-5f983fd6b0bd)
+
+
 ## 📊 1. Used Dataset
 
 - **Dataset Source**: [Amazon eCommerce Dataset](https://amazon-reviews-2023.github.io/)
