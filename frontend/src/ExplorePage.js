@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './HomePage.css';
+import './ExplorePage.css';
 
-const HomePage = () => {
+const ExplorePage = () => {
   const products = [
     { id: 1, name: '스팸 일괄', price: '15,000원', imageUrl: '/images/spam.jpg' },
     { id: 2, name: '냉장고', price: '10,000원', imageUrl: '/images/fridge.jpg' },
@@ -20,7 +20,7 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="homepage">
+    <div className="ExplorePage">
       <header className="navbar">
         <div className="logo">KKARROT</div>
 
@@ -62,7 +62,7 @@ const HomePage = () => {
             ))}
           </div>
           <div className="view-more">
-            <Link to="/explore">인기매물 더 보기</Link>
+            <Link to="/more-products">인기매물 더 보기</Link>
           </div>
         </section>
 
@@ -74,4 +74,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default ExplorePage;
