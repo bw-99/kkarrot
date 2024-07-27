@@ -70,3 +70,14 @@ This dataset contains detailed information on a wide range of electronic product
   - A lightweight WSGI web application framework, used as the core framework for building the backend.
 - **flask-restx**: `0.5.1`
   - An extension for Flask that adds support for quickly building REST APIs, with built-in support for data validation and API documentation.
+- **Swagger**: Integrated with Flask to provide API documentation, aiding collaboration between frontend and backend teams.
+
+### 💻 Frontend
+- **React**: `18.3.1`
+  - A JavaScript library for building user interfaces, ensuring a responsive and dynamic user experience.
+- **axios**: `1.7.2`
+  - A promise-based HTTP client for making API requests from the frontend, used for data fetching and state management.
+
+### 🛠️ DevOps
+- **Docker**
+  - Used for creating containerized environments to ensure consistent development, testing, and deployment, facilitating seamless collaboration among team members by sharing Docker images.
