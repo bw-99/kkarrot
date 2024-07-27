@@ -5,7 +5,7 @@ from flask import session
 
 ALPHA = 0.7
 WINDOW_SIZE = 5
-FETCH_UNIT = 3*6
+FETCH_UNIT = 4*3*2
 
 # * load data
 meta_df = pd.read_pickle("data/processed/item_meta.pkl")

@@ -21,6 +21,7 @@ app.config["SESSION_PERMANENT"] = False
 Session(app)
 rest_api.init_app(app)
 CORS(app)
+app.debug=True
 
 
 

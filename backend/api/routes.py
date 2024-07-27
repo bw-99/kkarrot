@@ -48,6 +48,7 @@ class Home(Resource):
     @user_id_check
     @login_check
     def post(self, user_id, _):
+        print(request)
         """Get recommended products."""
         if(not request.is_logined):
             return {}, 401
@@ -92,7 +93,7 @@ class Product(Resource):
             top_pred_idx = sequence_recommend(session_rec, click_history)
             top_items = pd.merge(pd.DataFrame(top_pred_idx, columns=['item_id']),meta_df, on='item_id', how='left')
             feed_lst= top_items.to_json(orient="records")
-            
+
         return {"success": True,
                 "item": item.to_json(orient="records"),
                 "feed_lst": feed_lst,

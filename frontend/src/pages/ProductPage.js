@@ -23,11 +23,9 @@ const ProductPage = () => {
 
   const handleFetch = (id) => {
     fetchProductFeed(id)
-      .then((response) => {
-        setFeedList(JSON.parse(response.data["feed_lst"]));
-        console.log(JSON.parse(response.data["item"]), JSON.parse(response.data["item"])[0], JSON.parse(response.data["item"]));
-        setProductDetail(JSON.parse(response.data["item"])[0]);
-        console.log(JSON.parse(response.data["item"])[0], productDetail);
+      .then((data) => {
+        setFeedList(data["feed_lst"]);
+        setProductDetail(data["item"]);
       })
       .catch((error) => {
         console.log("Error while fetching feeds:", error);
@@ -84,7 +82,7 @@ const ProductPage = () => {
       <div className='product-layout'>
       <main>
         <div className="product-details">
-          <img src={productDetail.images.hi_res[0]} alt={productDetail.title} className="product-image" />
+          <img style={{display:"block",}} src={productDetail.images.hi_res[0]} alt={productDetail.title} className="product-image" />
           <hr></hr>
           <div className="product-info">
           <div style={{fontSize: "20px", fontWeight: "600"}}>{productDetail.title}</div>
@@ -98,13 +96,13 @@ const ProductPage = () => {
           <div className="popular-products-grid">
           {feedList.map(item => (
               <Link to={`/product/${item.item_id}`} key={item.item_id} className="product-item">
-                <img src={item.images.hi_res[0]} alt={item.title} style={{width:"223px", height:"223px", objectFit:"cover"}}/>
+                <img src={item.images.hi_res[0]} alt={item.title} style={{display:"block",width:"223px", height:"223px", objectFit:"cover"}}/>
                 <div className="product-info" style={{display:"flex", alignItems:"flex-start", flexDirection:"column"}}>
                   <div style={{overflow:"hidden", whiteSpace:"nowrap", textOverflow:"ellipsis"}}>
                     {item.title}
                   </div>
-                  <div style={{fontWeight:"bold", marginTop:"8px"}}>{item.price}</div>
-                  <div style={{marginTop:"8px"}}>Additional Informations...</div>
+                  <div style={{fontWeight:"bold", marginTop:"8px"}}>{item.price}$</div>
+                  <div style={{marginTop:"8px"}}>Num ratings: {item.rating_number}</div>
                 </div>
               </Link>
             ))}
@@ -112,16 +110,16 @@ const ProductPage = () => {
         </div>
       </main>
 
-      <div className="load-more">
+      {/* <div className="load-more">
               <button onClick={()=>{
                 setViewMore(true);
               }}>더보기</button>
-            </div>
+            </div> */}
 
       </div>
-            <footer>
-        <p>&copy; 2024 당근</p>
-      </footer> 
+      <footer>
+        <p>&copy; 2024 KKARROT</p>
+      </footer>
     </div>
     
   );

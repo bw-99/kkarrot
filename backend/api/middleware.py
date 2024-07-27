@@ -10,6 +10,7 @@ def login_check(func):
         
         is_logined = False
         print(user_history.keys())
+        print(request.headers)
         try:
             user_id = request.headers.get("Authorization").strip().split(" ")[-1]
             user_id = int(user_id)

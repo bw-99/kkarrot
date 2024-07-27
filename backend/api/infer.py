@@ -4,7 +4,7 @@ from torch_geometric.data import HeteroData
 from torch_geometric.loader import LinkNeighborLoader
 import pandas as pd
 
-RETRIEVE_TOPK = 500
+RETRIEVE_TOPK = 4*3*40
 SESSION_TOPK = 4*3*5
 NUM_NEI1, NUM_NEI2 = 100, 50
 

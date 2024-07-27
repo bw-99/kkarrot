@@ -25,19 +25,13 @@ const HomePage = () => {
     }
   }, []);
   
-  const fetchBookList = () => {
-    fetchHomeFeed()
-      .then((response) => {
-        setBookList(JSON.parse(response.data["feed_lst"]));
-      })
-      .catch((error) => {
-        console.log("Error while fetching books:", error);
-      });
+  async function fetchBookList() {
+    let data = await fetchHomeFeed();
+    setBookList(data["feed_lst"]);
   }
   
-  console.log(bookList)
-
   return (
+    bookList &&
     <div className="homepage">
       <header className="navbar">
       <Link to={`/`}  className='logo'>KKARROT</Link>
@@ -68,7 +62,7 @@ const HomePage = () => {
             <div className="product-list">
               {bookList.map(product => (
                 <Link to={`/product/${product.item_id}`} key={product.item_id} className="product-item">
-                  <img src={product.images["hi_res"][0]} alt={product.title} style={{width:"223px", height:"223px", objectFit:"cover"}}/>
+                  <img src={product.images["hi_res"][0]} alt={product.title} style={{display:"block", width:"223px", height:"223px", objectFit:"cover"}}/>
                   <div className="product-info" style={{display:"flex", alignItems:"flex-start", flexDirection:"column"}}>
                     <div style={{overflow:"hidden", whiteSpace:"nowrap", textOverflow:"ellipsis"}}>
                       {product.title}
