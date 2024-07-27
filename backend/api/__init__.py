@@ -4,14 +4,21 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 import os, json
-
+from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
-
 from .routes import rest_api
-
+from flask_session import Session
+# from flask_session import Session
 app = Flask(__name__)
+load_dotenv()
 
+
+app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config["SESSION_PERMANENT"] = False
+
+Session(app)
 rest_api.init_app(app)
 CORS(app)
 

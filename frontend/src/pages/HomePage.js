@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
 import axios from 'axios';
+import {fetchHomeFeed} from '../api';
 
 const HomePage = () => {
   const [isLogin, setIsLogin] = useState('');
@@ -25,7 +26,7 @@ const HomePage = () => {
   }, []);
   
   const fetchBookList = () => {
-    axios.get('/view/home/1/p/1')
+    fetchHomeFeed()
       .then((response) => {
         setBookList(JSON.parse(response.data["feed_lst"]));
       })

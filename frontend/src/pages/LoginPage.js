@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import Session from 'react-session-api';
 import './LoginPage.css';
+import {putSession2Server} from "../api"
 
 
 const LoginPage = () => {
@@ -42,7 +43,15 @@ const LoginPage = () => {
         } else {
             sessionStorage.setItem("user_id", idNumber);
             setError('');
-            navigate("/");
+            putSession2Server().then(() => {
+              navigate("/");
+            })
+            .catch((error) => {
+              sessionStorage.removeItem("user_id");
+              alert("login error" + error);
+              navigate("/login");
+            });
+            
         }
       };
     

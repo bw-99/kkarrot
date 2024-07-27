@@ -1,9 +1,10 @@
 import pandas as pd
 from torch_geometric.data import HeteroData
 import torch
+from flask import session
 
 ALPHA = 0.7
-WINDOW_SIZE = 3
+WINDOW_SIZE = 5
 FETCH_UNIT = 3*6
 
 # * load data
@@ -13,3 +14,6 @@ ITEM_ID_LST = torch.LongTensor(meta_df["item_id"].to_list()).cuda()
 RATING_LST = torch.LongTensor(meta_df["rating_number"].to_list())
 graph = torch.load("data/processed/graph.pkl")
 graph = HeteroData().from_dict(graph)
+
+
+user_history = {}

@@ -26,13 +26,19 @@ product_model = rest_api.model('ProductModel', {
 home_model = rest_api.model('HomeModel', {"user_id": fields.Integer(required=True, min_length=1, max_length=1),
                                             })
 
+# * login infokmration
+login_model = rest_api.model('LoginModel', {"user_id": fields.Integer(required=True, min_length=1, max_length=1),
+                                            })
 
 @rest_api.route('/api/view/home/<int:user_id>/p/<int:page>')
 class Home(Resource):
     @user_id_check
+    @login_check
     @page_check
     def get(self, user_id, page, end_idx):
         """Get Hottest products."""
+        # print("from Home", session.keys())
+        # print(request.is_logined)
         return {"success": True,
                 "user_id": user_id,
                 "page": page,
@@ -40,8 +46,11 @@ class Home(Resource):
                 }, 200
 
     @user_id_check
+    @login_check
     def post(self, user_id, _):
         """Get recommended products."""
+        if(not request.is_logined):
+            return {}, 401
 
         # * retrieve
         retrieve_idx = retrieve(ttr_rec, user_id, ITEM_ID_LST)
@@ -65,18 +74,29 @@ class Home(Resource):
                 }, 200
     
     
-@rest_api.route('/api/view/product/<string:item_id>')
+@rest_api.route('/api/view/product/<int:item_id>')
 class Product(Resource):
-    def get(self, item_id):
+
+    @item_check
+    @login_check
+    def get(self, item):
         """Get detailed description of the product."""
+        if(not request.is_logined):
+            return {}, 401
+        
         return {"success": True,
-                "item_id": item_id,
+                # "item_id": item_id,
+                "item": item.to_json(orient="records")
                 }, 200
     
     @rest_api.expect(product_model, validate=True)
     @sequence_check
+    @login_check
     def post(self, item_id):
         """Get recommended products via click history."""
+        if(not request.is_logined):
+            return {}, 401
+        
         req_data = request.get_json()
         click_history = req_data.get("click_history")
         top_pred_idx = sequence_recommend(session_rec, click_history)
@@ -86,4 +106,18 @@ class Product(Resource):
 
         return {"success": True,
                 "feed_lst": top_items.to_json(orient="records")
+                }, 200
+    
+
+@rest_api.route('/api/login')
+class Login(Resource):
+
+    @rest_api.expect(login_model, validate=True)
+    def post(self):
+        """Get loginned user id and save it to session"""
+        req_data = request.get_json()
+        user_id = req_data.get("user_id")
+        user_history[f"user_id{user_id}"] = []
+        print("from login", user_history.keys())
+        return {"success": True,
                 }, 200

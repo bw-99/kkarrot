@@ -1,8 +1,24 @@
 import functools
-from flask import Response, Request, request
+from flask import Response, Request, request, session
 import os
 import jwt
-from api.constant import FETCH_UNIT
+from api.constant import FETCH_UNIT, meta_df, user_history
+
+def login_check(func):
+    @functools.wraps(func)
+    def wrapper(req, *args, **kwargs):
+        
+        is_logined = False
+        print(user_history.keys())
+        try:
+            user_id = request.headers.get("Authorization").strip().split(" ")[-1]
+            user_id = int(user_id)
+            is_logined = True if f"user_id{user_id}" in user_history.keys() else False
+        except:
+            is_logined = False
+        request.is_logined = is_logined
+        return func(req,*args, **kwargs)
+    return wrapper
 
 def user_id_check(func):
     @functools.wraps(func)
@@ -24,6 +40,16 @@ def page_check(func):
         end_idx = end_idx if end_idx < 72319 else 72319
 
         return func(req, user_id, page, end_idx)
+    return wrapper
+
+def item_check(func):
+    @functools.wraps(func)
+    def wrapper(req, item_id):
+        item = meta_df[meta_df["item_id"]==item_id]
+        if(len(item) == 0):
+            return {}, 404
+
+        return func(req, item)
     return wrapper
 
 

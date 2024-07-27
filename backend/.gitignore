@@ -15,3 +15,4 @@ data/*/*.pkl
 data/*/*.csv
 data/*/*.json
 ml/parameters/*.pth
+flask_session/*
