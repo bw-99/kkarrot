@@ -14,6 +14,13 @@ export const fetchHomeFeed = () => {
     })
 }
 
+export const fetchProductFeed = (item_id) => {
+    let user_id = sessionStorage.getItem("user_id");
+    return axios.get('/view/product/'+item_id, {
+        headers: gen_headers(user_id)
+    })
+}
+
 export const putSession2Server = () => {
     let user_id = sessionStorage.getItem("user_id");
     return axios.post('/login', {

@@ -17,6 +17,7 @@ def login_check(func):
         except:
             is_logined = False
         request.is_logined = is_logined
+        request.user_id = user_id
         return func(req,*args, **kwargs)
     return wrapper
 

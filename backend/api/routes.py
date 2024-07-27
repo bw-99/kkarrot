@@ -76,17 +76,26 @@ class Home(Resource):
     
 @rest_api.route('/api/view/product/<int:item_id>')
 class Product(Resource):
-
     @item_check
     @login_check
     def get(self, item):
         """Get detailed description of the product."""
         if(not request.is_logined):
             return {}, 401
-        
+        user_history[f"user_id{request.user_id}"].append(item["item_id"].tolist()[0])
+        click_history = user_history[f"user_id{request.user_id}"]
+        if(len(click_history) < 5):
+            feed_lst = meta_df.iloc[0:FETCH_UNIT].to_json(orient="records")
+        else:
+            click_history = click_history[-5:]
+            user_history[f"user_id{request.user_id}"] = click_history
+            top_pred_idx = sequence_recommend(session_rec, click_history)
+            top_items = pd.merge(pd.DataFrame(top_pred_idx, columns=['item_id']),meta_df, on='item_id', how='left')
+            feed_lst= top_items.to_json(orient="records")
+            
         return {"success": True,
-                # "item_id": item_id,
-                "item": item.to_json(orient="records")
+                "item": item.to_json(orient="records"),
+                "feed_lst": feed_lst,
                 }, 200
     
     @rest_api.expect(product_model, validate=True)

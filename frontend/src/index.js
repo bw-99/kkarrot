@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// sessionStorage.clear()
 axios.defaults.baseURL = "http://172.17.0.3:5000/api"
 root.render(
   <React.StrictMode>
