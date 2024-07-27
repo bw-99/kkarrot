@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import './ExplorePage.css';
 
@@ -20,7 +21,18 @@ const ExplorePage = () => {
   ];
 
   const [viewMore, setViewMore] = useState('');
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
 
+  // * 비로그인 방지
+  useEffect(() => {
+    let user_id = sessionStorage.getItem("user_id");
+    if(!user_id){
+      navigate("/login");  
+      return
+    }
+    setIsLogin(true);
+  }, []);
   
   useEffect(() => {
     if(!viewMore) {
@@ -33,12 +45,12 @@ const ExplorePage = () => {
   }, [viewMore])
   
   return (
+    isLogin &&
     <div className="ExplorePage">
       <header className="navbar">
-        <div className="logo">KKARROT</div>
-
+        <Link to={`/`}  className='logo'>KKARROT</Link>
       </header>
-      <main>
+      <div>
 
         <section className="popular-products" style={{display:"flex", alignItems:'center', flexDirection:"column"}}>
         <div style={{fontWeight:600, fontSize: "35px", marginTop:"40px", marginBottom:"50px"}}>중고거래 인기매물</div>
@@ -65,7 +77,7 @@ const ExplorePage = () => {
 
         </section>
 
-      </main>
+      </div>
       <footer>
         <p>&copy; 2024 KKARROT</p>
       </footer>

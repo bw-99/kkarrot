@@ -17,12 +17,7 @@
     margin-bottom: 20px;
   }
   
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ff6f00;
-  }
-  
+
   .login-form {
     display: flex;
     flex-direction: column;

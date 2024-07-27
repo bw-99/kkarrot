@@ -18,23 +18,32 @@
     padding: 10px 20px;
     background-color: #fff;
     border-bottom: 1px solid #e9ecef;
-    position: fixed; /* 상단에 고정 */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* 다른 요소 위에 위치하도록 z-index 설정 */
+    z-index: 1000;
   }
-  
   .logo {
     font-size: 24px;
     font-weight: bold;
     color: #ff6f00;
+    text-decoration: none;
   }
-  
   nav ul {
     display: flex;
     list-style: none;
   }
+
+  /* main {
+    padding-top: 70px;
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  } */
   
   nav ul li {
     margin: 0 15px;

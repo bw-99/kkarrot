@@ -7,7 +7,8 @@ import './LoginPage.css';
 const LoginPage = () => {
     const [id, setId] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [isLogin, setIsLogin] = useState(false);
 
     // * 중복 로그인 방지
     useEffect(() => {
@@ -20,6 +21,7 @@ const LoginPage = () => {
         if(((user_id >= 0) && (user_id <= 1999))) {
             navigate("/");
         }
+        setIsLogin(true);
       }, []);
 
     const handleIdChange = (e) => {
@@ -46,6 +48,7 @@ const LoginPage = () => {
     
 
   return (
+    !isLogin && 
     <div className="login-page">
       <div className="login-container">
           <div className="logo">KKARROT</div>
