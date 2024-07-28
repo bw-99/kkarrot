@@ -69,7 +69,7 @@ class GRURecommender(nn.Module):
     def __init__(self, num_items, embedding_dim, hidden_dim):
         super(GRURecommender, self).__init__()
         self.embedding = nn.Embedding(num_items, embedding_dim)
-        self.gru = nn.GRU(embedding_dim, hidden_dim, batch_first=True)
+        self.gru = nn.GRU(embedding_dim, hidden_dim, num_layers=1, batch_first=True)
         self.fc = nn.Linear(hidden_dim, num_items)
         self.relu = nn.ReLU()
 
@@ -79,3 +79,57 @@ class GRURecommender(nn.Module):
         x = self.relu(x[:, -1, :])
         x = self.fc(x)
         return x
+    
+
+class TailNet(nn.Module):
+    def __init__(self, num_items, embedding_dim, hidden_dim, head_mapping_lst):
+        super(TailNet, self).__init__()
+        self.head_mapping_lst = head_mapping_lst
+        
+        self.head_idx = self.head_mapping_lst == 1
+        self.tail_idx = self.head_mapping_lst == 0
+
+        self.hidden_dim = hidden_dim
+        self.embedding = nn.Embedding(num_items, embedding_dim)
+        self.gru = nn.GRU(embedding_dim, hidden_dim, num_layers=2, batch_first=True)
+        
+        self.attn_key = nn.Linear(hidden_dim, hidden_dim, bias=True)
+        self.attn_query = nn.Linear(hidden_dim, hidden_dim, bias=True)
+        self.attn_fc = nn.Linear(hidden_dim, 1, bias=True)
+        self.last_fc = nn.Linear(hidden_dim*2, num_items)
+        
+        self.adjust_attn_key = nn.Linear(hidden_dim, hidden_dim, bias=True)
+        self.adjust_attn_query = nn.Linear(hidden_dim, hidden_dim, bias=True)
+        self.adjust_attn_fc = nn.Linear(hidden_dim, 1, bias=True)
+        self.adjust_last_fc = nn.Linear(hidden_dim*2, 1)
+
+    def forward(self, item_idx):
+        x = self.embedding(item_idx)
+        item_emb, _ = self.gru(x)
+        # head_indiciators, tail_indicators = is_head==1, is_head==0
+        
+        # * rectification factors
+        item_types= self.head_mapping_lst[item_idx].view(item_idx.shape[0], item_idx.shape[1], 1)
+        item_types = item_types.repeat(1, 1, self.hidden_dim)
+
+        adjust_item_emb = item_emb + item_types
+        adjust_last_item_emb = adjust_item_emb[:, -1, :].unsqueeze(dim=1)
+        adjust_attention = self.adjust_attn_fc(F.tanh(self.adjust_attn_key(adjust_item_emb) + self.adjust_attn_query(adjust_last_item_emb)))
+        adjust_global_session_emb = (adjust_item_emb * adjust_attention).sum(dim=1)
+        adjust_local_session_emb = adjust_last_item_emb.view(item_idx.shape[0], -1)
+        r_head = F.sigmoid(self.adjust_last_fc(torch.cat([adjust_global_session_emb, adjust_local_session_emb], dim=1)))
+        r_tail = 1-r_head
+
+        # * preference estimation
+        last_item_emb = item_emb[:, -1, :].unsqueeze(dim=1)
+        attention = self.attn_fc(F.tanh(self.attn_key(item_emb) + self.attn_query(last_item_emb)))
+        global_session_emb = (item_emb * attention).sum(dim=1)
+        local_session_emb = last_item_emb.view(item_idx.shape[0], -1)
+        predicted_score = self.last_fc(torch.cat([global_session_emb, local_session_emb], dim=1))
+        predicted_score[:, self.head_idx] *= r_head
+        predicted_score[:, self.tail_idx] *= r_tail
+
+        # ! * adjust r_head and r_tail to long, tail item
+        predicted_score = F.softmax(predicted_score, dim=1)
+
+        return predicted_score

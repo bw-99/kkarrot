@@ -2,7 +2,7 @@ import functools
 from flask import Response, Request, request, session
 import os
 import jwt
-from api.constant import FETCH_UNIT, meta_df, user_history
+from api.constant import FETCH_UNIT, meta_df, user_history, NUM_USER, NUM_ITEM 
 
 def login_check(func):
     @functools.wraps(func)
@@ -26,7 +26,7 @@ def login_check(func):
 def user_id_check(func):
     @functools.wraps(func)
     def wrapper(req, user_id, page):
-        if(not(0 <= user_id <= 999)):
+        if(not(0 <= user_id <= NUM_USER)):
             return {}, 404
 
         return func(req, user_id, page)
@@ -36,11 +36,11 @@ def page_check(func):
     @functools.wraps(func)
     def wrapper(req, page):
         print(req, page)
-        if(page*FETCH_UNIT >= 72319):
+        if(page*FETCH_UNIT >= NUM_ITEM):
             return {}, 404
         
         end_idx = (page+1)*FETCH_UNIT
-        end_idx = end_idx if end_idx < 72319 else 72319
+        end_idx = end_idx if end_idx < NUM_ITEM else NUM_ITEM
 
         return func(req, page, end_idx)
     return wrapper
