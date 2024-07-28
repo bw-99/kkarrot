@@ -28,7 +28,7 @@ const ProductPage = () => {
         setProductDetail(data["item"]);
       })
       .catch((error) => {
-        console.log("Error while fetching feeds:", error);
+        navigate("/login"); 
       });
   }
   

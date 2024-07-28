@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Session from 'react-session-api';
 import './LoginPage.css';
 import {putSession2Server} from "../api"
@@ -13,6 +13,7 @@ const LoginPage = () => {
 
     // * 중복 로그인 방지
     useEffect(() => {
+      // alert(JSON.stringify(sessionStorage.getItem("user_id")))
         let user_id = sessionStorage.getItem("user_id");
         if(!user_id){
             return
@@ -60,7 +61,8 @@ const LoginPage = () => {
     !isLogin && 
     <div className="login-page">
       <div className="login-container">
-          <div className="logo">KKARROT</div>
+      <Link to={`/`}  className='logo'>KKARROT</Link>
+          {/* <div className="logo">KKARROT</div> */}
         <form className="login-form">
         <input
             type="text"

@@ -19,13 +19,13 @@ def retrieve(model:TTRecommender, user_id, item_id_lst):
     with torch.no_grad():
         preds = model(user_lst.cuda(), item_id_lst)
         pred_idx = torch.argsort(preds, descending=True)[:RETRIEVE_TOPK].cpu()
-    return pred_idx
+    return item_id_lst[pred_idx], preds[pred_idx]
 
 
 def link_prediction(model:LinkPrediction, user_id, item_id_lst, graph:HeteroData):
     edge_label_index = torch.stack([
         torch.repeat_interleave(torch.tensor([user_id]), item_id_lst.shape[0]),
-        item_id_lst
+        item_id_lst.cpu()
     ])
 
     data_loader = LinkNeighborLoader(
@@ -42,7 +42,9 @@ def link_prediction(model:LinkPrediction, user_id, item_id_lst, graph:HeteroData
             scores.append(model(sampled_data.cuda()).cpu().squeeze())
     scores = torch.cat(scores)
     scores = (scores-scores.min())/(scores.max()-scores.min())
-    return scores
+
+    top_idx = torch.argsort(scores, descending=True)[:RETRIEVE_TOPK].cpu()
+    return item_id_lst[top_idx].cpu(), scores[top_idx].cpu()
 
 def corresponding_popularity(item_id_lst, meta_df):
     rating_numbers = torch.LongTensor(pd.merge(

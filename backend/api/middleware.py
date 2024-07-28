@@ -14,11 +14,12 @@ def login_check(func):
         try:
             user_id = request.headers.get("Authorization").strip().split(" ")[-1]
             user_id = int(user_id)
+            request.user_id = user_id
             is_logined = True if f"user_id{user_id}" in user_history.keys() else False
         except:
             is_logined = False
         request.is_logined = is_logined
-        request.user_id = user_id
+        
         return func(req,*args, **kwargs)
     return wrapper
 
@@ -33,15 +34,15 @@ def user_id_check(func):
 
 def page_check(func):
     @functools.wraps(func)
-    def wrapper(req, user_id, page):
-        print(req, user_id, page)
+    def wrapper(req, page):
+        print(req, page)
         if(page*FETCH_UNIT >= 72319):
             return {}, 404
         
         end_idx = (page+1)*FETCH_UNIT
         end_idx = end_idx if end_idx < 72319 else 72319
 
-        return func(req, user_id, page, end_idx)
+        return func(req, page, end_idx)
     return wrapper
 
 def item_check(func):

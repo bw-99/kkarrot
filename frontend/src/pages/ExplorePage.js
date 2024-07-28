@@ -40,7 +40,7 @@ const ExplorePage = () => {
         setBookList(data["feed_lst"]);
       })
       .catch((error) => {
-        console.log("Error while fetching books:", error);
+        navigate("/login"); 
       });
   }
 
