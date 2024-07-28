@@ -1,5 +1,6 @@
 import torch
 from ml.model import *
+from api.constant import LONGTAIL_INDICATOR
 
 
 def load_twotower(save_path="parameters/twotower.pth"):
@@ -26,10 +27,11 @@ def load_linkprediction(save_path="parameters/linkprediction.pth"):
 
 def load_session(save_path="parameters/session.pth"):
     data = torch.load(save_path)
-    model = GRURecommender(
+    model = TailNet(
         num_items=data["num_items"],
         embedding_dim=data["embedding_dim"],
         hidden_dim=data["hidden_dim"],
+        head_mapping_lst=LONGTAIL_INDICATOR
     )
     model.load_state_dict(data["state_dict"])
     return model
