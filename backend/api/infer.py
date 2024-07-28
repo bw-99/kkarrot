@@ -8,7 +8,7 @@ RETRIEVE_TOPK = 4*3*40
 SESSION_TOPK = 4*3*5
 NUM_NEI1, NUM_NEI2 = 100, 50
 
-def sequence_recommend(model:GRURecommender, history):
+def sequence_recommend(model:TailNet, history):
     with torch.no_grad():
         preds = model(torch.LongTensor(history).view(1, -1).cuda()).cpu().squeeze()
         pred_idx = torch.argsort(preds, descending=True)[:SESSION_TOPK].cpu() 
