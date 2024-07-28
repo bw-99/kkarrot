@@ -19,7 +19,7 @@ The core of this project involves a deep learning recommender system model train
 </p>
 
 
-## 0. Docker
+## 🐋 0. Docker
 docker run -it -v {PATH_TO_WORKSPACE}:/work --shm-size=10G  bb1702/kkarrot:latest
 
 if you install or delete dependencies, libraries => docker commit {container_id} {name} and share 
