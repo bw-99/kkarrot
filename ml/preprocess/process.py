@@ -46,17 +46,13 @@ def _build_sequence_data(df: pd.DataFrame) -> pd.DataFrame:
                 parent_asin_lst.append(pad_sequence(parent_asin_t[valid_idx], pad_length, PAD_TOKEN))
                 # rating의 경우 해당 유저의 평균 rating으로 채운다.
                 rating_lst.append(pad_sequence(rating_t[valid_idx], pad_length, rating_t[valid_idx].mean()))
-                is_train_lst.append(pad_sequence(is_train_t[valid_idx], pad_length, PAD_TOKEN))
             else:
                 asin_lst.append(asin_t[valid_idx])
                 parent_asin_lst.append(parent_asin_t[valid_idx])
                 rating_lst.append(rating_t[valid_idx])
-                is_train_lst.append(is_train_t[valid_idx])
 
             is_train_lst.append(is_target_train)
             userid_lst.append(df.index[i])
-
-            breakpoint()
 
     logger.info(f"  - the size of total dataset: {len(is_train_lst)}")
 
